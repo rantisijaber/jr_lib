@@ -1,0 +1,14 @@
+[
+{
+  "directory": "/Users/rantisi/projects/jrlib/build",
+  "command": "/usr/bin/cc  -I/Users/rantisi/projects/jrlib/include -std=c2x -arch arm64 -o CMakeFiles/CWasp.dir/src/allocator.c.o -c /Users/rantisi/projects/jrlib/src/allocator.c",
+  "file": "/Users/rantisi/projects/jrlib/src/allocator.c",
+  "output": "CMakeFiles/CWasp.dir/src/allocator.c.o"
+},
+{
+  "directory": "/Users/rantisi/projects/jrlib/build",
+  "command": "/usr/bin/cc  -I/Users/rantisi/projects/jrlib/include -std=c2x -arch arm64 -o CMakeFiles/CWasp.dir/src/string.c.o -c /Users/rantisi/projects/jrlib/src/string.c",
+  "file": "/Users/rantisi/projects/jrlib/src/string.c",
+  "output": "CMakeFiles/CWasp.dir/src/string.c.o"
+}
+]
