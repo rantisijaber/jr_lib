@@ -1,1 +1,0 @@
-/usr/bin/cc  -arch arm64 -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/JRLib.dir/src/allocator.c.o CMakeFiles/JRLib.dir/src/functional.c.o CMakeFiles/JRLib.dir/src/string.c.o -o JRLib
