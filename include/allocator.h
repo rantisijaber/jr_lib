@@ -5,10 +5,15 @@
 
 
 
-typedef struct mem_allocator mem_allocator;
+typedef struct mem_allocator {
+    void* context;
+    void*(*allocate)(void* context, usz size, usz alignment);
+    void(*free)(void* context);
+} mem_allocator;
 
-mem_allocator make_arena(usz capacity, usz elem_size);
+
+mem_allocator make_arena(usz capacity);
 void allocator_destroy(mem_allocator* allocator);
-mem_allocator make_dyarena();
+// mem_allocator make_dyarena();
 
 #endif 

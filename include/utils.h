@@ -9,13 +9,13 @@ typedef uint8_t     u8;
 typedef uint16_t    u16;
 typedef uint32_t    u32;
 typedef uint64_t    u64;
-
+typedef uintptr_t   uptr;
 typedef size_t      usz;
 
 
 #define MAX(x, y) (x) > (y) ? (x) : (y)
 #define MIN(x, y) (x) < (y) ? (x) : (y)
-
+#define UNUSED(x) ((void)(x));
 
 
 
