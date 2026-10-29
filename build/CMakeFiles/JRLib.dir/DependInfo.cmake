@@ -8,8 +8,9 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/Users/rantisi/projects/jrlib/src/allocator.c" "CMakeFiles/CWasp.dir/src/allocator.c.o" "gcc" "CMakeFiles/CWasp.dir/src/allocator.c.o.d"
-  "/Users/rantisi/projects/jrlib/src/string.c" "CMakeFiles/CWasp.dir/src/string.c.o" "gcc" "CMakeFiles/CWasp.dir/src/string.c.o.d"
+  "/Users/rantisi/projects/jrlib/src/allocator.c" "CMakeFiles/JRLib.dir/src/allocator.c.o" "gcc" "CMakeFiles/JRLib.dir/src/allocator.c.o.d"
+  "/Users/rantisi/projects/jrlib/src/functional.c" "CMakeFiles/JRLib.dir/src/functional.c.o" "gcc" "CMakeFiles/JRLib.dir/src/functional.c.o.d"
+  "/Users/rantisi/projects/jrlib/src/string.c" "CMakeFiles/JRLib.dir/src/string.c.o" "gcc" "CMakeFiles/JRLib.dir/src/string.c.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

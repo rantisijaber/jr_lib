@@ -117,24 +117,24 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named CWasp
+# Target rules for targets named JRLib
 
 # Build rule for target.
-CWasp: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CWasp
-.PHONY : CWasp
+JRLib: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 JRLib
+.PHONY : JRLib
 
 # fast build rule for target.
-CWasp/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/CWasp.dir/build.make CMakeFiles/CWasp.dir/build
-.PHONY : CWasp/fast
+JRLib/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/JRLib.dir/build.make CMakeFiles/JRLib.dir/build
+.PHONY : JRLib/fast
 
 src/allocator.o: src/allocator.c.o
 .PHONY : src/allocator.o
 
 # target to build an object file
 src/allocator.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/CWasp.dir/build.make CMakeFiles/CWasp.dir/src/allocator.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/JRLib.dir/build.make CMakeFiles/JRLib.dir/src/allocator.c.o
 .PHONY : src/allocator.c.o
 
 src/allocator.i: src/allocator.c.i
@@ -142,7 +142,7 @@ src/allocator.i: src/allocator.c.i
 
 # target to preprocess a source file
 src/allocator.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/CWasp.dir/build.make CMakeFiles/CWasp.dir/src/allocator.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/JRLib.dir/build.make CMakeFiles/JRLib.dir/src/allocator.c.i
 .PHONY : src/allocator.c.i
 
 src/allocator.s: src/allocator.c.s
@@ -150,15 +150,39 @@ src/allocator.s: src/allocator.c.s
 
 # target to generate assembly for a file
 src/allocator.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/CWasp.dir/build.make CMakeFiles/CWasp.dir/src/allocator.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/JRLib.dir/build.make CMakeFiles/JRLib.dir/src/allocator.c.s
 .PHONY : src/allocator.c.s
+
+src/functional.o: src/functional.c.o
+.PHONY : src/functional.o
+
+# target to build an object file
+src/functional.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/JRLib.dir/build.make CMakeFiles/JRLib.dir/src/functional.c.o
+.PHONY : src/functional.c.o
+
+src/functional.i: src/functional.c.i
+.PHONY : src/functional.i
+
+# target to preprocess a source file
+src/functional.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/JRLib.dir/build.make CMakeFiles/JRLib.dir/src/functional.c.i
+.PHONY : src/functional.c.i
+
+src/functional.s: src/functional.c.s
+.PHONY : src/functional.s
+
+# target to generate assembly for a file
+src/functional.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/JRLib.dir/build.make CMakeFiles/JRLib.dir/src/functional.c.s
+.PHONY : src/functional.c.s
 
 src/string.o: src/string.c.o
 .PHONY : src/string.o
 
 # target to build an object file
 src/string.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/CWasp.dir/build.make CMakeFiles/CWasp.dir/src/string.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/JRLib.dir/build.make CMakeFiles/JRLib.dir/src/string.c.o
 .PHONY : src/string.c.o
 
 src/string.i: src/string.c.i
@@ -166,7 +190,7 @@ src/string.i: src/string.c.i
 
 # target to preprocess a source file
 src/string.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/CWasp.dir/build.make CMakeFiles/CWasp.dir/src/string.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/JRLib.dir/build.make CMakeFiles/JRLib.dir/src/string.c.i
 .PHONY : src/string.c.i
 
 src/string.s: src/string.c.s
@@ -174,7 +198,7 @@ src/string.s: src/string.c.s
 
 # target to generate assembly for a file
 src/string.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/CWasp.dir/build.make CMakeFiles/CWasp.dir/src/string.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/JRLib.dir/build.make CMakeFiles/JRLib.dir/src/string.c.s
 .PHONY : src/string.c.s
 
 # Help Target
@@ -185,10 +209,13 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... CWasp"
+	@echo "... JRLib"
 	@echo "... src/allocator.o"
 	@echo "... src/allocator.i"
 	@echo "... src/allocator.s"
+	@echo "... src/functional.o"
+	@echo "... src/functional.i"
+	@echo "... src/functional.s"
 	@echo "... src/string.o"
 	@echo "... src/string.i"
 	@echo "... src/string.s"

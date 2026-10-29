@@ -10,9 +10,10 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_EXTENSIONS OFF)
 
-add_executable(CWasp
+add_executable(JRLib
     src/allocator.c
-    src/string
+    src/functional.c
+    src/string.c 
 )
 
 target_include_directories(JRLib

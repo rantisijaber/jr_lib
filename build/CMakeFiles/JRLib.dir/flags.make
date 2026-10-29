@@ -6,7 +6,7 @@ C_DEFINES =
 
 C_INCLUDES = -I/Users/rantisi/projects/jrlib/include
 
-C_FLAGSarm64 = -std=c2x -arch arm64
+C_FLAGSarm64 = -std=c11 -arch arm64
 
-C_FLAGS = -std=c2x -arch arm64
+C_FLAGS = -std=c11 -arch arm64
 
