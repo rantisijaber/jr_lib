@@ -177,6 +177,54 @@ src/functional.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/JRLib.dir/build.make CMakeFiles/JRLib.dir/src/functional.c.s
 .PHONY : src/functional.c.s
 
+src/list.o: src/list.c.o
+.PHONY : src/list.o
+
+# target to build an object file
+src/list.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/JRLib.dir/build.make CMakeFiles/JRLib.dir/src/list.c.o
+.PHONY : src/list.c.o
+
+src/list.i: src/list.c.i
+.PHONY : src/list.i
+
+# target to preprocess a source file
+src/list.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/JRLib.dir/build.make CMakeFiles/JRLib.dir/src/list.c.i
+.PHONY : src/list.c.i
+
+src/list.s: src/list.c.s
+.PHONY : src/list.s
+
+# target to generate assembly for a file
+src/list.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/JRLib.dir/build.make CMakeFiles/JRLib.dir/src/list.c.s
+.PHONY : src/list.c.s
+
+src/main.o: src/main.c.o
+.PHONY : src/main.o
+
+# target to build an object file
+src/main.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/JRLib.dir/build.make CMakeFiles/JRLib.dir/src/main.c.o
+.PHONY : src/main.c.o
+
+src/main.i: src/main.c.i
+.PHONY : src/main.i
+
+# target to preprocess a source file
+src/main.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/JRLib.dir/build.make CMakeFiles/JRLib.dir/src/main.c.i
+.PHONY : src/main.c.i
+
+src/main.s: src/main.c.s
+.PHONY : src/main.s
+
+# target to generate assembly for a file
+src/main.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/JRLib.dir/build.make CMakeFiles/JRLib.dir/src/main.c.s
+.PHONY : src/main.c.s
+
 src/string.o: src/string.c.o
 .PHONY : src/string.o
 
@@ -216,6 +264,12 @@ help:
 	@echo "... src/functional.o"
 	@echo "... src/functional.i"
 	@echo "... src/functional.s"
+	@echo "... src/list.o"
+	@echo "... src/list.i"
+	@echo "... src/list.s"
+	@echo "... src/main.o"
+	@echo "... src/main.i"
+	@echo "... src/main.s"
 	@echo "... src/string.o"
 	@echo "... src/string.i"
 	@echo "... src/string.s"

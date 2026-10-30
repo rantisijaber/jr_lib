@@ -3,17 +3,18 @@
 
 #include "utils.h"
 
+typedef enum { DYNAMIC_ARENA, FIXED_ARENA } allocator_kind;
 
-
-typedef struct mem_allocator {
+typedef struct jr_allocator {
+    allocator_kind context_kind;
     void* context;
     void*(*allocate)(void* context, usz size, usz alignment);
-    void(*free)(void* context);
-} mem_allocator;
+    void(*reset)(void* context);
+    void(*destroy)(void* context);
+} jr_allocator;
 
 
-mem_allocator make_arena(usz capacity);
-void allocator_destroy(mem_allocator* allocator);
-// mem_allocator make_dyarena();
+jr_allocator make_arena(usz capacity);
+jr_allocator make_dyarena(void);
 
 #endif 

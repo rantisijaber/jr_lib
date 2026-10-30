@@ -72,10 +72,24 @@ include CMakeFiles/JRLib.dir/flags.make
 CMakeFiles/JRLib.dir/codegen:
 .PHONY : CMakeFiles/JRLib.dir/codegen
 
+CMakeFiles/JRLib.dir/src/main.c.o: CMakeFiles/JRLib.dir/flags.make
+CMakeFiles/JRLib.dir/src/main.c.o: /Users/rantisi/projects/jrlib/src/main.c
+CMakeFiles/JRLib.dir/src/main.c.o: CMakeFiles/JRLib.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/rantisi/projects/jrlib/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/JRLib.dir/src/main.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/JRLib.dir/src/main.c.o -MF CMakeFiles/JRLib.dir/src/main.c.o.d -o CMakeFiles/JRLib.dir/src/main.c.o -c /Users/rantisi/projects/jrlib/src/main.c
+
+CMakeFiles/JRLib.dir/src/main.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/JRLib.dir/src/main.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/rantisi/projects/jrlib/src/main.c > CMakeFiles/JRLib.dir/src/main.c.i
+
+CMakeFiles/JRLib.dir/src/main.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/JRLib.dir/src/main.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/rantisi/projects/jrlib/src/main.c -o CMakeFiles/JRLib.dir/src/main.c.s
+
 CMakeFiles/JRLib.dir/src/allocator.c.o: CMakeFiles/JRLib.dir/flags.make
 CMakeFiles/JRLib.dir/src/allocator.c.o: /Users/rantisi/projects/jrlib/src/allocator.c
 CMakeFiles/JRLib.dir/src/allocator.c.o: CMakeFiles/JRLib.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/rantisi/projects/jrlib/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/JRLib.dir/src/allocator.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/rantisi/projects/jrlib/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/JRLib.dir/src/allocator.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/JRLib.dir/src/allocator.c.o -MF CMakeFiles/JRLib.dir/src/allocator.c.o.d -o CMakeFiles/JRLib.dir/src/allocator.c.o -c /Users/rantisi/projects/jrlib/src/allocator.c
 
 CMakeFiles/JRLib.dir/src/allocator.c.i: cmake_force
@@ -89,7 +103,7 @@ CMakeFiles/JRLib.dir/src/allocator.c.s: cmake_force
 CMakeFiles/JRLib.dir/src/functional.c.o: CMakeFiles/JRLib.dir/flags.make
 CMakeFiles/JRLib.dir/src/functional.c.o: /Users/rantisi/projects/jrlib/src/functional.c
 CMakeFiles/JRLib.dir/src/functional.c.o: CMakeFiles/JRLib.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/rantisi/projects/jrlib/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/JRLib.dir/src/functional.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/rantisi/projects/jrlib/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/JRLib.dir/src/functional.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/JRLib.dir/src/functional.c.o -MF CMakeFiles/JRLib.dir/src/functional.c.o.d -o CMakeFiles/JRLib.dir/src/functional.c.o -c /Users/rantisi/projects/jrlib/src/functional.c
 
 CMakeFiles/JRLib.dir/src/functional.c.i: cmake_force
@@ -103,7 +117,7 @@ CMakeFiles/JRLib.dir/src/functional.c.s: cmake_force
 CMakeFiles/JRLib.dir/src/string.c.o: CMakeFiles/JRLib.dir/flags.make
 CMakeFiles/JRLib.dir/src/string.c.o: /Users/rantisi/projects/jrlib/src/string.c
 CMakeFiles/JRLib.dir/src/string.c.o: CMakeFiles/JRLib.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/rantisi/projects/jrlib/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/JRLib.dir/src/string.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/rantisi/projects/jrlib/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/JRLib.dir/src/string.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/JRLib.dir/src/string.c.o -MF CMakeFiles/JRLib.dir/src/string.c.o.d -o CMakeFiles/JRLib.dir/src/string.c.o -c /Users/rantisi/projects/jrlib/src/string.c
 
 CMakeFiles/JRLib.dir/src/string.c.i: cmake_force
@@ -114,21 +128,39 @@ CMakeFiles/JRLib.dir/src/string.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/JRLib.dir/src/string.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/rantisi/projects/jrlib/src/string.c -o CMakeFiles/JRLib.dir/src/string.c.s
 
+CMakeFiles/JRLib.dir/src/list.c.o: CMakeFiles/JRLib.dir/flags.make
+CMakeFiles/JRLib.dir/src/list.c.o: /Users/rantisi/projects/jrlib/src/list.c
+CMakeFiles/JRLib.dir/src/list.c.o: CMakeFiles/JRLib.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/rantisi/projects/jrlib/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/JRLib.dir/src/list.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/JRLib.dir/src/list.c.o -MF CMakeFiles/JRLib.dir/src/list.c.o.d -o CMakeFiles/JRLib.dir/src/list.c.o -c /Users/rantisi/projects/jrlib/src/list.c
+
+CMakeFiles/JRLib.dir/src/list.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/JRLib.dir/src/list.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/rantisi/projects/jrlib/src/list.c > CMakeFiles/JRLib.dir/src/list.c.i
+
+CMakeFiles/JRLib.dir/src/list.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/JRLib.dir/src/list.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/rantisi/projects/jrlib/src/list.c -o CMakeFiles/JRLib.dir/src/list.c.s
+
 # Object files for target JRLib
 JRLib_OBJECTS = \
+"CMakeFiles/JRLib.dir/src/main.c.o" \
 "CMakeFiles/JRLib.dir/src/allocator.c.o" \
 "CMakeFiles/JRLib.dir/src/functional.c.o" \
-"CMakeFiles/JRLib.dir/src/string.c.o"
+"CMakeFiles/JRLib.dir/src/string.c.o" \
+"CMakeFiles/JRLib.dir/src/list.c.o"
 
 # External object files for target JRLib
 JRLib_EXTERNAL_OBJECTS =
 
+JRLib: CMakeFiles/JRLib.dir/src/main.c.o
 JRLib: CMakeFiles/JRLib.dir/src/allocator.c.o
 JRLib: CMakeFiles/JRLib.dir/src/functional.c.o
 JRLib: CMakeFiles/JRLib.dir/src/string.c.o
+JRLib: CMakeFiles/JRLib.dir/src/list.c.o
 JRLib: CMakeFiles/JRLib.dir/build.make
 JRLib: CMakeFiles/JRLib.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/rantisi/projects/jrlib/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking C executable JRLib"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/rantisi/projects/jrlib/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking C executable JRLib"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/JRLib.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

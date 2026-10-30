@@ -11,9 +11,11 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_EXTENSIONS OFF)
 
 add_executable(JRLib
+    src/main.c
     src/allocator.c
     src/functional.c
-    src/string.c 
+    src/string.c
+    src/list.c
 )
 
 target_include_directories(JRLib

@@ -10,6 +10,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/Users/rantisi/projects/jrlib/src/allocator.c" "CMakeFiles/JRLib.dir/src/allocator.c.o" "gcc" "CMakeFiles/JRLib.dir/src/allocator.c.o.d"
   "/Users/rantisi/projects/jrlib/src/functional.c" "CMakeFiles/JRLib.dir/src/functional.c.o" "gcc" "CMakeFiles/JRLib.dir/src/functional.c.o.d"
+  "/Users/rantisi/projects/jrlib/src/list.c" "CMakeFiles/JRLib.dir/src/list.c.o" "gcc" "CMakeFiles/JRLib.dir/src/list.c.o.d"
+  "/Users/rantisi/projects/jrlib/src/main.c" "CMakeFiles/JRLib.dir/src/main.c.o" "gcc" "CMakeFiles/JRLib.dir/src/main.c.o.d"
   "/Users/rantisi/projects/jrlib/src/string.c" "CMakeFiles/JRLib.dir/src/string.c.o" "gcc" "CMakeFiles/JRLib.dir/src/string.c.o.d"
   )
 

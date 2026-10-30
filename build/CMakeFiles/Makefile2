@@ -85,12 +85,12 @@ clean: CMakeFiles/JRLib.dir/clean
 CMakeFiles/JRLib.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/JRLib.dir/build.make CMakeFiles/JRLib.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/JRLib.dir/build.make CMakeFiles/JRLib.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rantisi/projects/jrlib/build/CMakeFiles --progress-num=1,2,3,4 "Built target JRLib"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rantisi/projects/jrlib/build/CMakeFiles --progress-num=1,2,3,4,5,6 "Built target JRLib"
 .PHONY : CMakeFiles/JRLib.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/JRLib.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/rantisi/projects/jrlib/build/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/rantisi/projects/jrlib/build/CMakeFiles 6
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/JRLib.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/rantisi/projects/jrlib/build/CMakeFiles 0
 .PHONY : CMakeFiles/JRLib.dir/rule
@@ -102,7 +102,7 @@ JRLib: CMakeFiles/JRLib.dir/rule
 # codegen rule for target.
 CMakeFiles/JRLib.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/JRLib.dir/build.make CMakeFiles/JRLib.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rantisi/projects/jrlib/build/CMakeFiles --progress-num=1,2,3,4 "Finished codegen for target JRLib"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/rantisi/projects/jrlib/build/CMakeFiles --progress-num=1,2,3,4,5,6 "Finished codegen for target JRLib"
 .PHONY : CMakeFiles/JRLib.dir/codegen
 
 # clean rule for target.
