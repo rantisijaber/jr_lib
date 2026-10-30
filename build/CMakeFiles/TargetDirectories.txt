@@ -1,0 +1,3 @@
+/Users/rantisi/projects/jrlib/build/CMakeFiles/JRLib.dir
+/Users/rantisi/projects/jrlib/build/CMakeFiles/edit_cache.dir
+/Users/rantisi/projects/jrlib/build/CMakeFiles/rebuild_cache.dir

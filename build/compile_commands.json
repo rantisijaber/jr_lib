@@ -1,0 +1,32 @@
+[
+{
+  "directory": "/Users/rantisi/projects/jrlib/build",
+  "command": "/usr/bin/cc  -I/Users/rantisi/projects/jrlib/include -std=c11 -arch arm64 -o CMakeFiles/JRLib.dir/src/main.c.o -c /Users/rantisi/projects/jrlib/src/main.c",
+  "file": "/Users/rantisi/projects/jrlib/src/main.c",
+  "output": "CMakeFiles/JRLib.dir/src/main.c.o"
+},
+{
+  "directory": "/Users/rantisi/projects/jrlib/build",
+  "command": "/usr/bin/cc  -I/Users/rantisi/projects/jrlib/include -std=c11 -arch arm64 -o CMakeFiles/JRLib.dir/src/allocator.c.o -c /Users/rantisi/projects/jrlib/src/allocator.c",
+  "file": "/Users/rantisi/projects/jrlib/src/allocator.c",
+  "output": "CMakeFiles/JRLib.dir/src/allocator.c.o"
+},
+{
+  "directory": "/Users/rantisi/projects/jrlib/build",
+  "command": "/usr/bin/cc  -I/Users/rantisi/projects/jrlib/include -std=c11 -arch arm64 -o CMakeFiles/JRLib.dir/src/functional.c.o -c /Users/rantisi/projects/jrlib/src/functional.c",
+  "file": "/Users/rantisi/projects/jrlib/src/functional.c",
+  "output": "CMakeFiles/JRLib.dir/src/functional.c.o"
+},
+{
+  "directory": "/Users/rantisi/projects/jrlib/build",
+  "command": "/usr/bin/cc  -I/Users/rantisi/projects/jrlib/include -std=c11 -arch arm64 -o CMakeFiles/JRLib.dir/src/string.c.o -c /Users/rantisi/projects/jrlib/src/string.c",
+  "file": "/Users/rantisi/projects/jrlib/src/string.c",
+  "output": "CMakeFiles/JRLib.dir/src/string.c.o"
+},
+{
+  "directory": "/Users/rantisi/projects/jrlib/build",
+  "command": "/usr/bin/cc  -I/Users/rantisi/projects/jrlib/include -std=c11 -arch arm64 -o CMakeFiles/JRLib.dir/src/list.c.o -c /Users/rantisi/projects/jrlib/src/list.c",
+  "file": "/Users/rantisi/projects/jrlib/src/list.c",
+  "output": "CMakeFiles/JRLib.dir/src/list.c.o"
+}
+]
