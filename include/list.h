@@ -33,13 +33,16 @@
                                                                                                         \
         casted_list->data[casted_list->length] = actual_value;                                          \
         casted_list->length++;                                                                          \
-        casted_list->capacity *= 2;                                                                      \
+        casted_list->capacity *= 2;                                                                     \
     }                                                                                                   \
     void* T##_arraylist_get(void* arraylist, usz index) {                                               \
         T##_arraylist* casted_list = (T##_arraylist*)arraylist;                                         \
         if (index > casted_list->length - 1) return NULL;                                               \
         return &casted_list->data[index];                                                               \
     }                                                                                                   \
+    usz T##_arraylist_size(void* arraylist) {                                                           \
+        T##_arraylist* casted_list = (T##_arraylist*)arraylist;                                         \
+        return casted_list->length                                                                      \
     jr_list make_##T##_arraylist(jr_allocator* allocator) {                                             \
         void* temp_list = (allocator)->allocate((allocator)->context,                                   \
                                                 sizeof(T##_arraylist), _Alignof(T##_arraylist));        \
@@ -54,22 +57,23 @@
         list->allocator = allocator;                                                                    \
         list->length = 0;                                                                               \
         list->capacity = 64;                                                                            \
-        return (jr_list) { .context = list, .get = T##_arraylist_get, .append = T##_arraylist_append }; \
+        return (jr_list) { .context = list, .size = T##_arraylist_size, .get = T##_arraylist_get, .append = T##_arraylist_append }; \
     }                                                                                                   \
-
+    }                                                                                                   \
+    // void T##_arraylist_destroy(void* arraylist) {
+    //     T##_arraylist* list = (T##_arraylist*)arraylist;
+    //     list->allocator->
+    // }
 #define make_arraylist(T, allocator)                                                                    \
     make_##T##_arraylist(allocator)
 
 
 typedef struct {
     void* context;
-    
+    usz(*size)(void* context);  
     void(*append)(void* context, void* value);
     void*(*get)(void* context, usz index);
-    void*(*delete)(void* context, usz index);
     void(*destroy)(void* context);
 } jr_list;
-
-
 
 #endif
