@@ -18,9 +18,9 @@ typedef int16_t i16;
 typedef int32_t i32;
 typedef int64_t i64;
 
-#define KiB(amount) (10 << ((usz)amount))
-#define MiB(amount) (10 << KiB(amount))
-#define GiB(amount) (10 << MiB(amount))
+#define KiB(amount) ((usz) (amount) << 10)
+#define MiB(amount) (KiB(amount) << 10)
+#define GiB(amount) (MiB(amount) << 10)
 
 typedef struct {
     void* internal_allocator;
