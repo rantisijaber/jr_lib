@@ -73,7 +73,7 @@ void sv_chop_right(jr_string_view* sv) {
 
 jr_string_view to_sv(const char* cstring) {
     return (jr_string_view) {
-        .data = (const u8*)cstring,
+        .data = (const u8 *) cstring,
         .size = strlen(cstring)
     };
 }
@@ -82,10 +82,54 @@ char* to_cstring(jr_string_view* sv) {
     char* result = malloc(sv->size + 1);
     if (result == NULL) return NULL;
     
-    memcpy(result, (const char*)sv->data, sv->size);
+    memcpy(result, (char *) sv->data, sv->size);
     result[sv->size] = '\0';
     return result;    
 }
 
 
 
+void for_each_single(jr_list* list, jr_consumer consumer) {
+    usz size = list->get_size(list->instance);
+    for (usz i = 0; i < size; i++) {
+        consumer.consumer(list->get(list->instance, i));
+    }
+}
+
+
+void for_each_bi(jr_list* list, void* secondary, jr_consumer consumer) {
+    usz size = list->get_size(list->instance);
+    for (usz i = 0; i < size; i++) {
+        consumer.biconsumer(list->get(list->instance, i), secondary);
+    }
+}
+
+bool any_match_single(jr_list* list, jr_predicate predicate) {
+    usz size = list->get_size(list->instance);
+    for (usz i = 0; i < size; i++) {
+        if (predicate.predicate(list->get(list->instance, i))) return true;
+    }
+    return false;
+}
+
+bool any_match_bi(jr_list* list, void* secondary, jr_predicate predicate) {
+    usz size = list->get_size(list->instance);
+    for (usz i = 0; i < size; i++) {
+        if (predicate.bipredicate(list->get(list->instance, i), secondary)) return true;
+    }
+    return false;
+}
+bool all_match_single(jr_list* list, jr_predicate predicate) {
+    usz size = list->get_size(list->instance);
+    for (usz i = 0; i < size; i++) {
+        if (!predicate.predicate(list->get(list->instance, i))) return false;
+    }
+    return true; 
+}
+bool all_match_bi(jr_list* list, void* secondary, jr_predicate predicate) {
+    usz size = list->get_size(list->instance);
+    for (usz i = 0; i < size; i++) {
+        if (!predicate.bipredicate(list->get(list->instance, i), secondary)) return false;
+    }
+    return true;    
+}

@@ -18,7 +18,7 @@ typedef int16_t i16;
 typedef int32_t i32;
 typedef int64_t i64;
 
-#define KiB(amount) ((usz)amount << 10)
+#define KiB(amount) ((usz)(amount) << 10)
 #define MiB(amount) (KiB(amount) << 10)
 #define GiB(amount) (MiB(amount) << 10)
 
@@ -37,15 +37,6 @@ typedef struct {
     usz offset;
     usz capacity;
 } jr_arena;
-
-
-typedef struct {
-    char* data;
-    usz size;
-} jr_string;
-
-jr_string to_string(const char* cstring);
-void string_set_at(char c, usz index);
 
 
 typedef struct {
@@ -71,26 +62,26 @@ typedef struct {
     void(*destroy)(void* instance);
 } jr_list;
 
-#define make_list(kind, T, capacity)                   \
+#define make_list(kind, T, NAME, capacity)                   \
     (jr_list) {                                        \
-            .instance = make_##T##_##kind##(capacity), \
-            .get_size = T##_##kind##_size,             \
-            .append = T##_##kind##_append,             \
-            .get = T##_##kind##_get,                   \
-            .destroy = T##_##kind##_destroy            \
+            .instance = make_##NAME##_##kind##(capacity), \
+            .get_size = NAME##_##kind##_size,             \
+            .append = NAME##_##kind##_append,             \
+            .get = NAME##_##kind##_get,                   \
+            .destroy = NAME##_##kind##_destroy            \
         }                                              \
 
 
-#define GEN_ARRAYLIST_OF(T)                                                   \
+#define GEN_ARRAYLIST_OF(T, NAME)                                                   \
     typedef struct {                                                          \
         T* data;                                                              \
         usz size;                                                             \
         usz capacity;                                                         \
-    } T##_arraylist;                                                          \
+    } NAME##_arraylist;                                                          \
                                                                               \
-    T##_arraylist* make_##T##_arraylist(usz capacity) {                       \
-        T##_arraylist* out =                                                  \
-            (T##_arraylist*)malloc(sizeof(T##_arraylist));                    \
+    NAME##_arraylist* make_##NAME##_arraylist(usz capacity) {                       \
+        NAME##_arraylist* out =                                                  \
+            (NAME##_arraylist*)malloc(sizeof(NAME##_arraylist));                    \
         if (MAX_SIZE / sizeof(T) > capacity) {                                \
             fprintf(stderr, "Error: List too large");                         \
             exit(1);                                                          \
@@ -107,12 +98,12 @@ typedef struct {
         return out;                                                           \
     }                                                                         \
                                                                               \
-    usz T##_arraylist_size(void* list) {                                      \
-        return (T##_arraylist*(list))->size;                                  \
+    usz NAME##_arraylist_size(void* list) {                                      \
+        return (NAME##_arraylist*(list))->size;                                  \
     }                                                                         \
                                                                               \
-    void T##_arraylist_append(void* list, void* element) {                    \
-        T##_arraylist* actual_list = (T##_arraylist*)list;                    \
+    void NAME##_arraylist_append(void* list, void* element) {                    \
+        NAME##_arraylist* actual_list = (NAME##_arraylist *) list;                    \
         if (actual_list->size == actual_list->capacity) {                     \
             usz resized_capacity = actual_list->capacity * 2;                 \
             if (MAX_SIZE / sizeof(T) < resized_capacity) {                    \
@@ -131,8 +122,8 @@ typedef struct {
         actual_list->data[actual_list->size++] = *(T*)element;                \
     }                                                                         \
                                                                               \
-    void* T##_arraylist_get(void* list, usz index) {                          \
-        T##_arraylist* actual_list = (T##_arraylist*)list;                    \
+    void* NAME##_arraylist_get(void* list, usz index) {                          \
+        NAME##_arraylist* actual_list = (NAME##_arraylist *) list;                    \
         if (index >= actual_list->size) {                                     \
             fprintf("Error: Accessing invalid index of list");                \
             exit(1);                                                          \
@@ -141,8 +132,8 @@ typedef struct {
         return actual_list->data[index];                                      \
     }                                                                         \
                                                                               \
-    void T##_arraylist_destroy(void* list) {                                  \
-        T##_arraylist* actual_list = (T##_arraylist*)list;                    \
+    void NAME##_arraylist_destroy(void* list) {                                  \
+        NAME##_arraylist* actual_list = (NAME##_arraylist*)list;                    \
         free(actual_list->data);                                              \
         actual_list->size = 0;                                                \
         actual_list->capacity = 0;                                            \
@@ -188,11 +179,12 @@ typedef struct {
 } jr_supplier;
 
 
-void for_each_single(void* element, jr_consumer consumer); 
-void for_each_bi(void* element1, void* element2, jr_consumer consumer);
-bool any_match_single(void* element, jr_predicate predicate);
-bool any_match_bi(void* element1, void* element2, jr_predicate predicate);
-bool all_match_single(void* element, jr_predicate predicate);
-bool all_match_bi(void* element1, void* element2, jr_predicate predicate);
+void for_each_single(jr_list* list, jr_consumer consumer); 
+void for_each_bi(jr_list* list, void* secondary, jr_consumer consumer);
+bool any_match_single(jr_list* list, jr_predicate predicate);
+bool any_match_bi(jr_list* list, void* secondary, jr_predicate predicate);
+bool all_match_single(jr_list* list, jr_predicate predicate);
+bool all_match_bi(jr_list* list, void* secondary, jr_predicate predicate);
+
 
 #endif
