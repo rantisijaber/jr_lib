@@ -62,26 +62,25 @@ typedef struct {
     void(*destroy)(void* instance);
 } jr_list;
 
-#define make_list(kind, T, NAME, capacity)                   \
-    (jr_list) {                                        \
+#define make_list(kind, T, NAME, capacity)                \
+    (jr_list) {                                           \
             .instance = make_##NAME##_##kind##(capacity), \
             .get_size = NAME##_##kind##_size,             \
             .append = NAME##_##kind##_append,             \
             .get = NAME##_##kind##_get,                   \
             .destroy = NAME##_##kind##_destroy            \
-        }                                              \
+        }
 
-
-#define GEN_ARRAYLIST_OF(T, NAME)                                                   \
+#define GEN_ARRAYLIST_OF(T, NAME)                                             \
     typedef struct {                                                          \
         T* data;                                                              \
         usz size;                                                             \
         usz capacity;                                                         \
-    } NAME##_arraylist;                                                          \
+    } NAME##_arraylist;                                                       \
                                                                               \
-    NAME##_arraylist* make_##NAME##_arraylist(usz capacity) {                       \
-        NAME##_arraylist* out =                                                  \
-            (NAME##_arraylist*)malloc(sizeof(NAME##_arraylist));                    \
+    NAME##_arraylist* make_##NAME##_arraylist(usz capacity) {                 \
+        NAME##_arraylist* out =                                               \
+            (NAME##_arraylist*)malloc(sizeof(NAME##_arraylist));              \
         if (MAX_SIZE / sizeof(T) > capacity) {                                \
             fprintf(stderr, "Error: List too large");                         \
             exit(1);                                                          \
@@ -98,12 +97,12 @@ typedef struct {
         return out;                                                           \
     }                                                                         \
                                                                               \
-    usz NAME##_arraylist_size(void* list) {                                      \
-        return (NAME##_arraylist*(list))->size;                                  \
+    usz NAME##_arraylist_size(void* list) {                                   \
+        return (NAME##_arraylist*(list))->size;                               \
     }                                                                         \
                                                                               \
-    void NAME##_arraylist_append(void* list, void* element) {                    \
-        NAME##_arraylist* actual_list = (NAME##_arraylist *) list;                    \
+    void NAME##_arraylist_append(void* list, void* element) {                 \
+        NAME##_arraylist* actual_list = (NAME##_arraylist *) list;            \
         if (actual_list->size == actual_list->capacity) {                     \
             usz resized_capacity = actual_list->capacity * 2;                 \
             if (MAX_SIZE / sizeof(T) < resized_capacity) {                    \
@@ -122,8 +121,8 @@ typedef struct {
         actual_list->data[actual_list->size++] = *(T*)element;                \
     }                                                                         \
                                                                               \
-    void* NAME##_arraylist_get(void* list, usz index) {                          \
-        NAME##_arraylist* actual_list = (NAME##_arraylist *) list;                    \
+    void* NAME##_arraylist_get(void* list, usz index) {                       \
+        NAME##_arraylist* actual_list = (NAME##_arraylist *) list;            \
         if (index >= actual_list->size) {                                     \
             fprintf("Error: Accessing invalid index of list");                \
             exit(1);                                                          \
@@ -132,8 +131,8 @@ typedef struct {
         return actual_list->data[index];                                      \
     }                                                                         \
                                                                               \
-    void NAME##_arraylist_destroy(void* list) {                                  \
-        NAME##_arraylist* actual_list = (NAME##_arraylist*)list;                    \
+    void NAME##_arraylist_destroy(void* list) {                               \
+        NAME##_arraylist* actual_list = (NAME##_arraylist*)list;              \
         free(actual_list->data);                                              \
         actual_list->size = 0;                                                \
         actual_list->capacity = 0;                                            \
