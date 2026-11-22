@@ -18,24 +18,25 @@ typedef int16_t i16;
 typedef int32_t i32;
 typedef int64_t i64;
 
-#define KiB(amount) ((usz) (amount) << 10)
-#define MiB(amount) (KiB(amount) << 10)
-#define GiB(amount) (MiB(amount) << 10)
+#define KiB(amount) (10 << ((usz)amount))
+#define MiB(amount) (10 << KiB(amount))
+#define GiB(amount) (10 << MiB(amount))
 
 typedef struct {
     void* internal_allocator;
 
-    void*(*allocate)(void* data);
-    void*(*destroy)(void* internal_allocator);
-
+    void*(*allocate)(void* internal_allocator, usz size);
+    void(*destroy)(void* internal_allocator);
+    void(*reset)(void* internal_allocator);
 } jr_allocator;
+
+
 
 typedef struct {
     u8* data;
     usz offset;
     usz capacity;
 } jr_arena;
-
 
 
 typedef struct {
@@ -45,13 +46,6 @@ typedef struct {
 
 jr_string to_string(const char* cstring);
 void string_set_at(char c, usz index);
-
-
-
-#define SV_LITERAL(string) (jr_string_view) { \
-    .data = (const u8 *)(string),             \
-    .size = sizeof(string) - 1                \
-}
 
 
 typedef struct {
@@ -65,7 +59,7 @@ char* to_cstring(jr_string_view* sv);
 void sv_chop_left(jr_string_view* sv);
 void sv_chop_right(jr_string_view* sv);
 void sv_trim(jr_string_view sv);
-bool sv_equals(jr_string_view sv1, jr_string_view sv2);
+
 
 
 typedef struct {
@@ -169,7 +163,7 @@ typedef void*(*bifunction_bare)(void* element1, void* element2);
 
 
 typedef struct {
-    union  {
+    union {
         predicate_bare predicate;
         bipredicate_bare bipredicate;
     };

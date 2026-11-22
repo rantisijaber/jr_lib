@@ -1,5 +1,64 @@
 #include "jr_utils.h"
+#include <stdint.h>
 #include <stdlib.h>
+
+#define ALIGNMENT sizeof(void *) * 2
+
+
+
+#define make_allocator(kind, capacity)              \
+    (jr_allocator) {                                \
+        .internal_allocator = make_##T##(capacity), \
+        .allocate = T##_allocate,                 \
+        .destroy = T##_destroy,                   \
+        .reset = T##_reset                        \
+    };
+
+
+
+uintptr_t align_forward(uintptr_t ptr, usz align) {
+    uintptr_t result = ptr & ((uintptr_t) align - 1);
+    if (result != 0) {
+        return ptr + (uintptr_t) align - result;
+    }
+    
+    return ptr;
+}
+
+
+jr_arena* make_arena(usz capacity) {
+    jr_arena* out = (jr_arena *)malloc(sizeof(jr_arena));
+    out->data = (u8 *)malloc(capacity);
+    out->capacity = capacity;
+    out->offset = 0;
+    return out; 
+}
+
+void* arena_allocate(void* arena, usz size) {
+    jr_arena* casted_arena = (jr_arena *) arena;
+    uintptr_t curr = (uintptr_t) casted_arena->data + (uintptr_t) casted_arena->offset;
+    uintptr_t n_offset = align_forward(curr, ALIGNMENT) - curr;
+
+    if (n_offset + size <= casted_arena->capacity) {
+        casted_arena->offset = n_offset + size;
+        return &casted_arena->data[n_offset];
+    }
+
+    return NULL;
+}
+
+void arena_destroy(void* arena) {
+    jr_arena* casted_arena = (jr_arena *) arena;
+    free(casted_arena->data);
+    casted_arena->capacity = 0;
+    casted_arena->offset = 0;
+}
+
+void arena_reset(void* arena) {
+    jr_arena* casted_arena = (jr_arena *) arena;
+    casted_arena->offset = 0;
+}
+
 
 void sv_chop_left(jr_string_view* sv) {
     if (sv->size == 0) return;
@@ -23,7 +82,7 @@ char* to_cstring(jr_string_view* sv) {
     char* result = malloc(sv->size + 1);
     if (result == NULL) return NULL;
     
-    memcpy(result, (char*)sv->data, sv->size);
+    memcpy(result, (const char*)sv->data, sv->size);
     result[sv->size] = '\0';
     return result;    
 }
