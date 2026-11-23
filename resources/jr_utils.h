@@ -24,15 +24,24 @@ typedef int64_t i64;
 
 
 
+#define UNUSED(x) void(x)
 #define ALIGNMENT sizeof(void *) * 2
+
+#define ERROR_CHECK(condition, message, action)                                                                    \
+    do {                                                                                                           \
+        if (condition) {                                                                                           \
+            fprintf("Error: %s File -> %s\nLine -> %d\nFunctin -> %s\n", message, __FILE__, __LINE__, __func__); \
+            action                                                                                                 \
+        }                                                                                                          \
+    } while (0)                                                                                                    \
 
 #define make_allocator(kind, capacity)              \
     (jr_allocator) {                                \
         .internal_allocator = make_##T##(capacity), \
-        .allocate = T##_allocate,                 \
-        .destroy = T##_destroy,                   \
-        .reset = T##_reset                        \
-    };
+        .allocate = T##_allocate,                   \
+        .destroy = T##_destroy,                     \
+        .reset = T##_reset                          \
+    };                                              \
 
 
 typedef struct {
