@@ -33,7 +33,7 @@ typedef int64_t i64;
 #define ERROR_CHECK(condition, message, action)                                                                    \
     do {                                                                                                           \
         if (condition) {                                                                                           \
-            fprintf(stderr, "Error: %s File -> %s\nLine -> %d\nFunctin -> %s\n", message, __FILE__, __LINE__, __func__); \
+            fprintf(stderr, "Error: %s {\n\tFile -> %s\n\tLine -> %d\n\tFunctin -> %s\n", message, __FILE__, __LINE__, __func__); \
             action                                                                                                 \
         }                                                                                                          \
     } while (0)                                                                                                    \
