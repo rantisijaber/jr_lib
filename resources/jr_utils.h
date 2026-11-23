@@ -22,6 +22,19 @@ typedef int64_t i64;
 #define MiB(amount) (KiB(amount) << 10)
 #define GiB(amount) (MiB(amount) << 10)
 
+
+
+#define ALIGNMENT sizeof(void *) * 2
+
+#define make_allocator(kind, capacity)              \
+    (jr_allocator) {                                \
+        .internal_allocator = make_##T##(capacity), \
+        .allocate = T##_allocate,                 \
+        .destroy = T##_destroy,                   \
+        .reset = T##_reset                        \
+    };
+
+
 typedef struct {
     void* internal_allocator;
 
@@ -38,6 +51,11 @@ typedef struct {
     usz capacity;
 } jr_arena;
 
+#define SV_LITERAL(s) (jr_string_view) { \
+    .data = (const u8*)(s),         \
+    .size = sizeof(s) - 1                \
+}
+
 
 typedef struct {
     const u8* data;
@@ -50,7 +68,7 @@ char* to_cstring(jr_string_view* sv);
 void sv_chop_left(jr_string_view* sv);
 void sv_chop_right(jr_string_view* sv);
 void sv_trim(jr_string_view sv);
-
+bool sv_equals(jr_string_view sv1, jr_string_view sv2);
 
 
 typedef struct {

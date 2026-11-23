@@ -2,19 +2,6 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-#define ALIGNMENT sizeof(void *) * 2
-
-
-
-#define make_allocator(kind, capacity)              \
-    (jr_allocator) {                                \
-        .internal_allocator = make_##T##(capacity), \
-        .allocate = T##_allocate,                 \
-        .destroy = T##_destroy,                   \
-        .reset = T##_reset                        \
-    };
-
-
 
 uintptr_t align_forward(uintptr_t ptr, usz align) {
     uintptr_t result = ptr & ((uintptr_t) align - 1);
@@ -87,6 +74,12 @@ char* to_cstring(jr_string_view* sv) {
     return result;    
 }
 
+bool sv_equals(jr_string_view sv1, jr_string_view sv2) {
+    if (sv1.size != sv2.size) return false;
+    if (sv1.size == 0) return true;
+    
+    return memcmp(sv1.data, sv2.data, sv1.size) == 0;
+}
 
 
 void for_each_single(jr_list* list, jr_consumer consumer) {
