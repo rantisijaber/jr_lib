@@ -27,6 +27,9 @@ typedef int64_t i64;
 #define UNUSED(x) void(x)
 #define ALIGNMENT sizeof(void *) * 2
 
+#define SV_FORMAT(jr_string_view) "%.*s", (jr_string_view).size, (const char *)(jr_string_view).data
+
+
 #define ERROR_CHECK(condition, message, action)                                                                    \
     do {                                                                                                           \
         if (condition) {                                                                                           \
