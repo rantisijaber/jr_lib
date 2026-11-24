@@ -52,7 +52,7 @@ typedef int64_t i64;
 
 
 
-#define make_allocator(kind, capacity)              \
+#define make_allocator(T, capacity)              \
     (jr_allocator) {                                \
         .internal_allocator = make_##T##(capacity), \
         .allocate = T##_allocate,                   \
@@ -287,7 +287,7 @@ typedef struct {
     } NAME##_rstack;                                                                       \
                                                                                            \
                                                                                            \
-    NAME##_rstack make_##NAME##_rstack(usz init_capacity) {                                \
+    NAME##_rstack* make_##NAME##_rstack(usz init_capacity) {                                \
         return (NAME##_rstack) {                                                           \
             .data = (T *) malloc(sizeof(T) * init_capacity),                               \
             .pos = 0,                                                                      \
