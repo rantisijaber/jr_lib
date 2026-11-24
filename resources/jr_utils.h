@@ -1,8 +1,6 @@
 #ifndef JR_UTILS_H
 #define JR_UTILS_H
 
-#include <cstdio>
-#include <cstdlib>
 #include <stdint.h>
 #include <stddef.h>
 #include <stdbool.h>
@@ -30,7 +28,7 @@ typedef int64_t i64;
 #define ALIGNMENT sizeof(void *) * 2
 
 #define SV_FORMAT(jr_string_view) "%.*s", (jr_string_view).size, (const char *)(jr_string_view).data
-
+#define SV_PRINT(jr_string_view) printf(SV_FORMAT(jr_string_view))
 
 #define ERROR_CHECK(condition, message, action)                                              \
     do {                                                                                     \
