@@ -1,6 +1,8 @@
 #ifndef JR_UTILS_H
 #define JR_UTILS_H
 
+#include <cstdio>
+#include <cstdlib>
 #include <stdint.h>
 #include <stddef.h>
 #include <stdbool.h>
@@ -30,13 +32,27 @@ typedef int64_t i64;
 #define SV_FORMAT(jr_string_view) "%.*s", (jr_string_view).size, (const char *)(jr_string_view).data
 
 
-#define ERROR_CHECK(condition, message, action)                                                                    \
-    do {                                                                                                           \
-        if (condition) {                                                                                           \
-            fprintf(stderr, "Error: %s {\n\tFile -> %s\n\tLine -> %d\n\tFunctin -> %s\n}\n", message, __FILE__, __LINE__, __func__); \
-            action                                                                                                 \
-        }                                                                                                          \
-    } while (0)                                                                                                    \
+#define ERROR_CHECK(condition, message, action)                                              \
+    do {                                                                                     \
+        if (condition) {                                                                     \
+            fprintf(stderr, "Error: %s {\n\tFile -> %s\n\tLine -> %d\n\tFunctin -> %s\n}\n", \
+                        message, __FILE__, __LINE__, __func__);                              \
+            action                                                                           \
+        }                                                                                    \
+    } while (0)                                                                              \
+
+
+#define WARNING_CHECK(condition, message, action)                                              \
+    do {                                                                                       \
+        if (condition) {                                                                       \
+            fprintf(stderr, "Warning: %s {\n\tFile -> %s\n\tLine ->%d\n\tFunction -> %s\n}\n", \
+                    message, __FILE__, __LINE__, __func__);                                    \
+            action                                                                             \
+        }                                                                                      \
+                                                                                               \
+    }                                                                                          \
+
+
 
 #define make_allocator(kind, capacity)              \
     (jr_allocator) {                                \
@@ -215,5 +231,109 @@ bool any_match_bi(jr_list* list, void* secondary, jr_predicate predicate);
 bool all_match_single(jr_list* list, jr_predicate predicate);
 bool all_match_bi(jr_list* list, void* secondary, jr_predicate predicate);
 
+
+
+typedef struct {
+    void* instance;
+
+    void(*push)(void* instance, void* element);
+    void*(*peek)(void* instance);
+    void*(*pop)(void* instance);
+    bool(*is_empty)(void* instance);
+} jr_stack;
+
+                                                                                                   \
+#define GEN_FSTACK_OF(T, NAME)                                                                     \
+    typedef struct {                                                                               \
+        T* data;                                                                                   \
+        usz pos;                                                                                   \
+        usz capacity;                                                                              \
+    } NAME##_fstack;                                                                               \
+                                                                                                   \
+    NAME##_fstack make_##NAME##_fstack(usz init_capacity) {                                        \
+        return (NAME##_fstack) {                                                                   \
+            .data = (T *) malloc(sizeof(T) * init_capacity),                                       \
+            .pos = 0,                                                                              \
+            .capacitry = init_capacity                                                             \
+        };                                                                                         \
+    }                                                                                              \
+    void NAME##_fstack_push(void* instance, void* element) {                                       \
+        NAME##_fstack* stack = (NAME##_fstack *) instance;                                         \
+        T casted_element = *(T *) element;                                                         \
+        WARNING_CHECK(stack->pos == stack->capacity, "Cannot push to stack, stack full", return;); \
+        stack->data[stack->pos++] = casted_element;                                                \
+                                                                                                   \
+    }                                                                                              \
+                                                                                                   \
+    void* NAME##_fstack_peek(void* instance) {                                                     \
+        NAME##_fstack stack = (NAME##_fstack *) instance;                                          \
+        WARNING_CHECK(stack->pos == 0, "Cannot peek, stack is empty", return NULL;);               \
+        return stack->data[stack->pos];                                                            \
+    }                                                                                              \
+                                                                                                   \
+    void* NAME##_fstack_pop(void* instance) {                                                      \
+        NAME##_fstack stack = (NAME##_fstack *) instance;                                          \
+        WARNING_CHECK(stack->pos == 0, "Cannot peek, stack is empty", return NULL;);               \
+        return stack->data[stack->pos--];                                                          \
+    }                                                                                              \
+                                                                                                   \
+    bool NAME##_fstack_is_empty(void* instance) {                                                  \
+        return ((NAME##_fstack *) instance)->pos == 0;                                             \
+    }                                                                                              \
+
+#define GEN_RSTACK_OF(T, NAME)                                                             \
+    typedef struct {                                                                       \
+        T* data;                                                                           \
+        usz pos;                                                                           \
+        usz capacity;                                                                      \
+    } NAME##_rstack;                                                                       \
+                                                                                           \
+                                                                                           \
+    NAME##_rstack make_##NAME##_rstack(usz init_capacity) {                                \
+        return (NAME##_rstack) {                                                           \
+            .data = (T *) malloc(sizeof(T) * init_capacity),                               \
+            .pos = 0,                                                                      \
+            .capacitry = init_capacity                                                     \
+        };                                                                                 \
+    }                                                                                      \
+                                                                                           \
+    void NAME##_rstack_push(void* instance, void* element) {                               \
+        NAME##_rstack* stack = (NAME##_rstack *) instance;                                 \
+        T casted_element = *(T *) element;                                                 \
+        if (stack->pos == stack->capacity) {                                               \
+            void* temp = realloc(stack->data, sizeof(T) * stack->capacity * 2);            \
+            ERROR_CHECK(temp == NULL, "Could not realloc for rstack", exit(EXIT_FAILURE)); \
+            stack->data = temp;                                                            \
+            stack->capacity *= 2;                                                          \
+        }                                                                                  \
+        stack->data[stack->pos++] = casted_element;                                        \
+                                                                                           \
+    }                                                                                      \
+                                                                                           \
+    void* NAME##_rstack_peek(void* instance) {                                             \
+        NAME##_rstack stack = (NAME##_rstack *) instance;                                  \
+        WARNING_CHECK(stack->pos == 0, "Cannot peek, stack is empty", return NULL;);       \
+        return stack->data[stack->pos];                                                    \
+    }                                                                                      \
+                                                                                           \
+    void* NAME##_rstack_pop(void* instance) {                                              \
+        NAME##_rstack stack = (NAME##_rstack *) instance;                                  \
+        WARNING_CHECK(stack->pos == 0, "Cannot peek, stack is empty", return NULL;);       \
+        return stack->data[stack->pos--];                                                  \
+    }                                                                                      \
+                                                                                           \
+    bool NAME##_rstack_is_empty(void* instance) {                                          \
+        return ((NAME##_rstack *) instance)->pos == 0;                                     \
+    }                                                                                      \
+                                                                                           \
+
+#define make_stack(kind, T, NAME, capacity)            \
+    (jr_stack) {                                       \
+        .instance =  make_##NAME##_##kind##(capacity), \
+        .push = NAME##_##kind##_push,                  \
+        .pop = NAME##_##kind##_pop,                    \
+        .peek = NAME##_##kind##_peek,                  \
+        .is_empty = NAME##_##kind##_is_empty           \
+}
 
 #endif
