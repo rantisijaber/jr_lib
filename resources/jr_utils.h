@@ -327,7 +327,7 @@ typedef struct {
     }                                                                                      \
                                                                                            \
 
-#define make_stack(kind, T, NAME, capacity)            \
+#define make_stack(kind, NAME, capacity)            \
     (jr_stack) {                                       \
         .instance =  make_##NAME##_##kind##(capacity), \
         .push = NAME##_##kind##_push,                  \
