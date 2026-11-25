@@ -1,6 +1,7 @@
 #ifndef JR_UTILS_H
 #define JR_UTILS_H
 
+#include <cstdlib>
 #include <stdint.h>
 #include <stddef.h>
 #include <stdbool.h>
@@ -115,73 +116,68 @@ typedef struct {
             .destroy = NAME##_##kind##_destroy            \
         }
 
-#define GEN_ARRAYLIST_OF(T, NAME)                                             \
-    typedef struct {                                                          \
-        T* data;                                                              \
-        usz size;                                                             \
-        usz capacity;                                                         \
-    } NAME##_arraylist;                                                       \
-                                                                              \
-    NAME##_arraylist* make_##NAME##_arraylist(usz capacity) {                 \
-        NAME##_arraylist* out =                                               \
-            (NAME##_arraylist*)malloc(sizeof(NAME##_arraylist));              \
-        if (MAX_SIZE / sizeof(T) > capacity) {                                \
-            fprintf(stderr, "Error: List too large");                         \
-            exit(1);                                                          \
-        }                                                                     \
-        void* temp = malloc(sizeof(T) * capacity);                            \
-        if (temp == NULL) {                                                   \
-            fprintf(stderr, "Error: Could not allocate memory for new list"); \
-            exit(1);                                                          \
-                                                                              \
-        }                                                                     \
-        out->data = temp;                                                     \
-        out->capacity = capacity;                                             \
-        out->size = 0;                                                        \
-        return out;                                                           \
-    }                                                                         \
-                                                                              \
-    usz NAME##_arraylist_size(void* list) {                                   \
-        return (NAME##_arraylist*(list))->size;                               \
-    }                                                                         \
-                                                                              \
-    void NAME##_arraylist_append(void* list, void* element) {                 \
-        NAME##_arraylist* actual_list = (NAME##_arraylist *) list;            \
-        if (actual_list->size == actual_list->capacity) {                     \
-            usz resized_capacity = actual_list->capacity * 2;                 \
-            if (MAX_SIZE / sizeof(T) < resized_capacity) {                    \
-                fprintf(stderr, "Error: List too large");                     \
-                exit(1);                                                      \
-            }                                                                 \
-            void* temp = realloc(actual_list->data, resized_capacity);        \
-            if (temp == NULL) {                                               \
-                fprintf(stderr, "Error: Could not resize list");              \
-                exit(1);                                                      \
-            }                                                                 \
-                                                                              \
-            actual_list->data = temp;                                         \
-            actual_list->capacity *= 2;                                       \
-        }                                                                     \
-        actual_list->data[actual_list->size++] = *(T*)element;                \
-    }                                                                         \
-                                                                              \
-    void* NAME##_arraylist_get(void* list, usz index) {                       \
-        NAME##_arraylist* actual_list = (NAME##_arraylist *) list;            \
-        if (index >= actual_list->size) {                                     \
-            fprintf("Error: Accessing invalid index of list");                \
-            exit(1);                                                          \
-        }                                                                     \
-                                                                              \
-        return actual_list->data[index];                                      \
-    }                                                                         \
-                                                                              \
-    void NAME##_arraylist_destroy(void* list) {                               \
-        NAME##_arraylist* actual_list = (NAME##_arraylist*)list;              \
-        free(actual_list->data);                                              \
-        actual_list->size = 0;                                                \
-        actual_list->capacity = 0;                                            \
-        free(actual_list);                                                    \
-    }                                                                         \
+#define GEN_ARRAYLIST_OF(T, NAME)                                                    \
+    typedef struct {                                                                 \
+        T* data;                                                                     \
+        usz size;                                                                    \
+        usz capacity;                                                                \
+    } NAME##_arraylist;                                                              \
+                                                                                     \
+    NAME##_arraylist* make_##NAME##_arraylist(usz capacity) {                        \
+        NAME##_arraylist* out =                                                      \
+            (NAME##_arraylist*)malloc(sizeof(NAME##_arraylist));                     \
+        if (MAX_SIZE / sizeof(T) > capacity) {                                       \
+            fprintf(stderr, "Error: List too large");                                \
+            exit(1);                                                                 \
+        }                                                                            \
+        void* temp = malloc(sizeof(T) * capacity);                                   \
+        if (temp == NULL) {                                                          \
+            fprintf(stderr, "Error: Could not allocate memory for new list");        \
+            exit(1);                                                                 \
+                                                                                     \
+        }                                                                            \
+        out->data = temp;                                                            \
+        out->capacity = capacity;                                                    \
+        out->size = 0;                                                               \
+        return out;                                                                  \
+    }                                                                                \
+                                                                                     \
+    usz NAME##_arraylist_size(void* list) {                                          \
+        return (NAME##_arraylist*(list))->size;                                      \
+    }                                                                                \
+                                                                                     \
+    void NAME##_arraylist_append(void* list, void* element) {                        \
+        NAME##_arraylist* actual_list = (NAME##_arraylist *) list;                   \
+        if (actual_list->size == actual_list->capacity) {                            \
+            usz resized_capacity = actual_list->capacity * 2;                        \
+            ERROR_CHECK(MAX_SIZE / sizeof(T) < resized_capacity,                     \
+                    "List too large", exit(EXIT_FAILURE););                          \
+            void* temp = realloc(actual_list->data, resized_capacity);               \
+            ERROR_CHECK(temp == NULL, "Could not resize list", exit(EXIT_FAILURE);); \
+                                                                                     \
+            actual_list->data = temp;                                                \
+            actual_list->capacity *= 2;                                              \
+        }                                                                            \
+        actual_list->data[actual_list->size++] = *(T*)element;                       \
+    }                                                                                \
+                                                                                     \
+    void* NAME##_arraylist_get(void* list, usz index) {                              \
+        NAME##_arraylist* actual_list = (NAME##_arraylist *) list;                   \
+        if (index >= actual_list->size) {                                            \
+            fprintf("Error: Accessing invalid index of list");                       \
+            exit(1);                                                                 \
+        }                                                                            \
+                                                                                     \
+        return actual_list->data[index];                                             \
+    }                                                                                \
+                                                                                     \
+    void NAME##_arraylist_destroy(void* list) {                                      \
+        NAME##_arraylist* actual_list = (NAME##_arraylist*)list;                     \
+        free(actual_list->data);                                                     \
+        actual_list->size = 0;                                                       \
+        actual_list->capacity = 0;                                                   \
+        free(actual_list);                                                           \
+    }                                                                                \
 
 
 //functional stuff
