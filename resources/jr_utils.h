@@ -1,7 +1,6 @@
 #ifndef JR_UTILS_H
 #define JR_UTILS_H
 
-#include <cstdlib>
 #include <stdint.h>
 #include <stddef.h>
 #include <stdbool.h>
