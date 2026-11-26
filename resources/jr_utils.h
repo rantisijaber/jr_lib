@@ -5,6 +5,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include <string.h>
 
 typedef size_t usz;
@@ -30,6 +31,13 @@ typedef int64_t i64;
 
 #define SV_FORMAT(jr_string_view) "%.*s", (jr_string_view).size, (const char *)(jr_string_view).data
 #define SV_PRINT(jr_string_view) printf(SV_FORMAT(jr_string_view))
+
+#define ERROR_NCONDITION(message, action)                                                \
+    do {                                                                                 \
+        fprintf(stderr, "Error: %s {\n\tFile -> %s\n\tLine -> %d\n\tFunctin -> %s\n}\n", \
+                message, __FILE__, __LINE__, __func__);                                  \
+            action                                                                       \
+} while (0)
 
 #define ERROR_CHECK(condition, message, action)                                              \
     do {                                                                                     \
