@@ -96,7 +96,7 @@ void sv_chop_left(jr_string_view* sv);
 void sv_chop_right(jr_string_view* sv);
 void sv_trim(jr_string_view sv);
 bool sv_equals(jr_string_view sv1, jr_string_view sv2);
-
+jr_string_view sv_substring(jr_string_view og, usz init_index, usz fin_index);
 
 typedef struct {
     void* instance;

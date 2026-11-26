@@ -81,6 +81,12 @@ bool sv_equals(jr_string_view sv1, jr_string_view sv2) {
     return memcmp(sv1.data, sv2.data, sv1.size) == 0;
 }
 
+jr_string_view sv_substring(jr_string_view og, usz init_index, usz fin_index) {
+    return (jr_string_view)  {
+        .data = og.data + init_index,
+        .size = fin_index - init_index + 1
+    };
+}
 
 void for_each_single(jr_list* list, jr_consumer consumer) {
     usz size = list->get_size(list->instance);
