@@ -6,6 +6,7 @@
 #include <stddef.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 typedef size_t usz;
@@ -134,16 +135,12 @@ typedef struct {
     NAME##_arraylist* make_##NAME##_arraylist(usz capacity) {                        \
         NAME##_arraylist* out =                                                      \
             (NAME##_arraylist*)malloc(sizeof(NAME##_arraylist));                     \
-        if (MAX_SIZE / sizeof(T) > capacity) {                                       \
-            fprintf(stderr, "Error: List too large");                                \
-            exit(1);                                                                 \
-        }                                                                            \
-        void* temp = malloc(sizeof(T) * capacity);                                   \
-        if (temp == NULL) {                                                          \
-            fprintf(stderr, "Error: Could not allocate memory for new list");        \
-            exit(1);                                                                 \
                                                                                      \
-        }                                                                            \
+        ERROR_CHECK(MAX_SIZE / sizeof(T) > capacity,                                 \
+                    "List too large", exit(EXIT_FAILURE););                          \
+        void* temp = malloc(sizeof(T) * capacity);                                   \
+        ERROR_CHECK(temp == NULL,                                                    \
+                "Could not allocate memory for new list", exit(EXIT_FAILURE););      \
         out->data = temp;                                                            \
         out->capacity = capacity;                                                    \
         out->size = 0;                                                               \
@@ -171,11 +168,8 @@ typedef struct {
                                                                                      \
     void* NAME##_arraylist_get(void* list, usz index) {                              \
         NAME##_arraylist* actual_list = (NAME##_arraylist *) list;                   \
-        if (index >= actual_list->size) {                                            \
-            fprintf("Error: Accessing invalid index of list");                       \
-            exit(1);                                                                 \
-        }                                                                            \
-                                                                                     \
+        ERROR_CHECK(index >= actual_list->size,                                      \
+                    "Accessing invalid index of list", exit(EXIT_FAILURE););         \
         return actual_list->data[index];                                             \
     }                                                                                \
                                                                                      \
@@ -185,7 +179,7 @@ typedef struct {
         actual_list->size = 0;                                                       \
         actual_list->capacity = 0;                                                   \
         free(actual_list);                                                           \
-    }                                                                                \
+    }
 
 
 //functional stuff
