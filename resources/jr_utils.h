@@ -36,15 +36,15 @@ typedef int64_t i64;
     do {                                                                                 \
         fprintf(stderr, "Error: %s {\n\tFile -> %s\n\tLine -> %d\n\tFunctin -> %s\n}\n", \
                 message, __FILE__, __LINE__, __func__);                                  \
-            action                                                                       \
-} while (0)
+            action;                                                                      \
+} while (0)                                                                              \
 
 #define ERROR_CHECK(condition, message, action)                                              \
     do {                                                                                     \
         if (condition) {                                                                     \
             fprintf(stderr, "Error: %s {\n\tFile -> %s\n\tLine -> %d\n\tFunctin -> %s\n}\n", \
                         message, __FILE__, __LINE__, __func__);                              \
-            action                                                                           \
+            action;                                                                          \
         }                                                                                    \
     } while (0)                                                                              \
 
@@ -54,7 +54,7 @@ typedef int64_t i64;
         if (condition) {                                                                       \
             fprintf(stderr, "Warning: %s {\n\tFile -> %s\n\tLine ->%d\n\tFunction -> %s\n}\n", \
                     message, __FILE__, __LINE__, __func__);                                    \
-            action                                                                             \
+            action;                                                                            \
         }                                                                                      \
                                                                                                \
     }                                                                                          \
@@ -124,61 +124,61 @@ typedef struct {
             .destroy = NAME##_##kind##_destroy            \
         }
 
-#define GEN_ARRAYLIST_OF(T, NAME)                                                    \
-    typedef struct {                                                                 \
-        T* data;                                                                     \
-        usz size;                                                                    \
-        usz capacity;                                                                \
-    } NAME##_arraylist;                                                              \
-                                                                                     \
-    NAME##_arraylist* make_##NAME##_arraylist(usz capacity) {                        \
-        NAME##_arraylist* out =                                                      \
-            (NAME##_arraylist*)malloc(sizeof(NAME##_arraylist));                     \
-                                                                                     \
-        ERROR_CHECK(MAX_SIZE / sizeof(T) > capacity,                                 \
-                    "List too large", exit(EXIT_FAILURE););                          \
-        void* temp = malloc(sizeof(T) * capacity);                                   \
-        ERROR_CHECK(temp == NULL,                                                    \
-                "Could not allocate memory for new list", exit(EXIT_FAILURE););      \
-        out->data = temp;                                                            \
-        out->capacity = capacity;                                                    \
-        out->size = 0;                                                               \
-        return out;                                                                  \
-    }                                                                                \
-                                                                                     \
-    usz NAME##_arraylist_size(void* list) {                                          \
-        return (NAME##_arraylist*(list))->size;                                      \
-    }                                                                                \
-                                                                                     \
-    void NAME##_arraylist_append(void* list, void* element) {                        \
-        NAME##_arraylist* actual_list = (NAME##_arraylist *) list;                   \
-        if (actual_list->size == actual_list->capacity) {                            \
-            usz resized_capacity = actual_list->capacity * 2;                        \
-            ERROR_CHECK(MAX_SIZE / sizeof(T) < resized_capacity,                     \
-                    "List too large", exit(EXIT_FAILURE););                          \
-            void* temp = realloc(actual_list->data, resized_capacity);               \
-            ERROR_CHECK(temp == NULL, "Could not resize list", exit(EXIT_FAILURE);); \
-                                                                                     \
-            actual_list->data = temp;                                                \
-            actual_list->capacity *= 2;                                              \
-        }                                                                            \
-        actual_list->data[actual_list->size++] = *(T*)element;                       \
-    }                                                                                \
-                                                                                     \
-    void* NAME##_arraylist_get(void* list, usz index) {                              \
-        NAME##_arraylist* actual_list = (NAME##_arraylist *) list;                   \
-        ERROR_CHECK(index >= actual_list->size,                                      \
-                    "Accessing invalid index of list", exit(EXIT_FAILURE););         \
-        return actual_list->data[index];                                             \
-    }                                                                                \
-                                                                                     \
-    void NAME##_arraylist_destroy(void* list) {                                      \
-        NAME##_arraylist* actual_list = (NAME##_arraylist*)list;                     \
-        free(actual_list->data);                                                     \
-        actual_list->size = 0;                                                       \
-        actual_list->capacity = 0;                                                   \
-        free(actual_list);                                                           \
-    }
+#define GEN_ARRAYLIST_OF(T, NAME)                                                   \
+    typedef struct {                                                                \
+        T* data;                                                                    \
+        usz size;                                                                   \
+        usz capacity;                                                               \
+    } NAME##_arraylist;                                                             \
+                                                                                    \
+    NAME##_arraylist* make_##NAME##_arraylist(usz capacity) {                       \
+        NAME##_arraylist* out =                                                     \
+            (NAME##_arraylist*)malloc(sizeof(NAME##_arraylist));                    \
+                                                                                    \
+        ERROR_CHECK(MAX_SIZE / sizeof(T) > capacity,                                \
+                    "List too large", exit(EXIT_FAILURE));                          \
+        void* temp = malloc(sizeof(T) * capacity);                                  \
+        ERROR_CHECK(temp == NULL,                                                   \
+                "Could not allocate memory for new list", exit(EXIT_FAILURE));      \
+        out->data = temp;                                                           \
+        out->capacity = capacity;                                                   \
+        out->size = 0;                                                              \
+        return out;                                                                 \
+    }                                                                               \
+                                                                                    \
+    usz NAME##_arraylist_size(void* list) {                                         \
+        return (NAME##_arraylist*(list))->size;                                     \
+    }                                                                               \
+                                                                                    \
+    void NAME##_arraylist_append(void* list, void* element) {                       \
+        NAME##_arraylist* actual_list = (NAME##_arraylist *) list;                  \
+        if (actual_list->size == actual_list->capacity) {                           \
+            usz resized_capacity = actual_list->capacity * 2;                       \
+            ERROR_CHECK(MAX_SIZE / sizeof(T) < resized_capacity,                    \
+                    "List too large", exit(EXIT_FAILURE));                          \
+            void* temp = realloc(actual_list->data, resized_capacity);              \
+            ERROR_CHECK(temp == NULL, "Could not resize list", exit(EXIT_FAILURE)); \
+                                                                                    \
+            actual_list->data = temp;                                               \
+            actual_list->capacity *= 2;                                             \
+        }                                                                           \
+        actual_list->data[actual_list->size++] = *(T*)element;                      \
+    }                                                                               \
+                                                                                    \
+    void* NAME##_arraylist_get(void* list, usz index) {                             \
+        NAME##_arraylist* actual_list = (NAME##_arraylist *) list;                  \
+        ERROR_CHECK(index >= actual_list->size,                                     \
+                    "Accessing invalid index of list", exit(EXIT_FAILURE));         \
+        return actual_list->data[index];                                            \
+    }                                                                               \
+                                                                                    \
+    void NAME##_arraylist_destroy(void* list) {                                     \
+        NAME##_arraylist* actual_list = (NAME##_arraylist*)list;                    \
+        free(actual_list->data);                                                    \
+        actual_list->size = 0;                                                      \
+        actual_list->capacity = 0;                                                  \
+        free(actual_list);                                                          \
+    }                                                                               \
 
 
 //functional stuff
@@ -237,44 +237,44 @@ typedef struct {
     bool(*is_empty)(void* instance);
 } jr_stack;
 
-                                                                                                   \
-#define GEN_FSTACK_OF(T, NAME)                                                                     \
-    typedef struct {                                                                               \
-        T* data;                                                                                   \
-        usz pos;                                                                                   \
-        usz capacity;                                                                              \
-    } NAME##_fstack;                                                                               \
-                                                                                                   \
-    NAME##_fstack make_##NAME##_fstack(usz init_capacity) {                                        \
-        return (NAME##_fstack) {                                                                   \
-            .data = (T *) malloc(sizeof(T) * init_capacity),                                       \
-            .pos = 0,                                                                              \
-            .capacitry = init_capacity                                                             \
-        };                                                                                         \
-    }                                                                                              \
-    void NAME##_fstack_push(void* instance, void* element) {                                       \
-        NAME##_fstack* stack = (NAME##_fstack *) instance;                                         \
-        T casted_element = *(T *) element;                                                         \
-        WARNING_CHECK(stack->pos == stack->capacity, "Cannot push to stack, stack full", return;); \
-        stack->data[stack->pos++] = casted_element;                                                \
-                                                                                                   \
-    }                                                                                              \
-                                                                                                   \
-    void* NAME##_fstack_peek(void* instance) {                                                     \
-        NAME##_fstack stack = (NAME##_fstack *) instance;                                          \
-        WARNING_CHECK(stack->pos == 0, "Cannot peek, stack is empty", return NULL;);               \
-        return stack->data[stack->pos];                                                            \
-    }                                                                                              \
-                                                                                                   \
-    void* NAME##_fstack_pop(void* instance) {                                                      \
-        NAME##_fstack stack = (NAME##_fstack *) instance;                                          \
-        WARNING_CHECK(stack->pos == 0, "Cannot peek, stack is empty", return NULL;);               \
-        return stack->data[stack->pos--];                                                          \
-    }                                                                                              \
-                                                                                                   \
-    bool NAME##_fstack_is_empty(void* instance) {                                                  \
-        return ((NAME##_fstack *) instance)->pos == 0;                                             \
-    }                                                                                              \
+
+#define GEN_FSTACK_OF(T, NAME)                                                                    \
+    typedef struct {                                                                              \
+        T* data;                                                                                  \
+        usz pos;                                                                                  \
+        usz capacity;                                                                             \
+    } NAME##_fstack;                                                                              \
+                                                                                                  \
+    NAME##_fstack make_##NAME##_fstack(usz init_capacity) {                                       \
+        return (NAME##_fstack) {                                                                  \
+            .data = (T *) malloc(sizeof(T) * init_capacity),                                      \
+            .pos = 0,                                                                             \
+            .capacitry = init_capacity                                                            \
+        };                                                                                        \
+    }                                                                                             \
+    void NAME##_fstack_push(void* instance, void* element) {                                      \
+        NAME##_fstack* stack = (NAME##_fstack *) instance;                                        \
+        T casted_element = *(T *) element;                                                        \
+        WARNING_CHECK(stack->pos == stack->capacity, "Cannot push to stack, stack full", return); \
+        stack->data[stack->pos++] = casted_element;                                               \
+                                                                                                  \
+    }                                                                                             \
+                                                                                                  \
+    void* NAME##_fstack_peek(void* instance) {                                                    \
+        NAME##_fstack stack = (NAME##_fstack *) instance;                                         \
+        WARNING_CHECK(stack->pos == 0, "Cannot peek, stack is empty", return NULL);               \
+        return stack->data[stack->pos];                                                           \
+    }                                                                                             \
+                                                                                                  \
+    void* NAME##_fstack_pop(void* instance) {                                                     \
+        NAME##_fstack stack = (NAME##_fstack *) instance;                                         \
+        WARNING_CHECK(stack->pos == 0, "Cannot peek, stack is empty", return NULL);               \
+        return stack->data[stack->pos--];                                                         \
+    }                                                                                             \
+                                                                                                  \
+    bool NAME##_fstack_is_empty(void* instance) {                                                 \
+        return ((NAME##_fstack *) instance)->pos == 0;                                            \
+    }
 
 #define GEN_RSTACK_OF(T, NAME)                                                             \
     typedef struct {                                                                       \
