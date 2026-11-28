@@ -117,15 +117,15 @@ typedef struct {
     void(*destroy)(void* instance);
 } jr_list;
 
-#define make_list(kind, T, NAME, capacity)                \
-    (jr_list) {                                           \
-            .instance = make_##NAME##_##kind##(capacity), \
-            .get_size = NAME##_##kind##_size,             \
-            .append = NAME##_##kind##_append,             \
-            .get = NAME##_##kind##_get,                   \
-            .destroy = NAME##_##kind##_destroy            \
+#define make_list(kind, T, NAME, capacity)              \
+    (jr_list) {                                         \
+            .instance = make_##NAME##_##kind(capacity), \
+            .get_size = NAME##_##kind##_size,           \
+            .append = NAME##_##kind##_append,           \
+            .get = NAME##_##kind##_get,                 \
+            .destroy = NAME##_##kind##_destroy          \
         }
-
+                                                                                    \
 #define GEN_ARRAYLIST_OF(T, NAME)                                                   \
     typedef struct {                                                                \
         T* data;                                                                    \
@@ -133,7 +133,7 @@ typedef struct {
         usz capacity;                                                               \
     } NAME##_arraylist;                                                             \
                                                                                     \
-    NAME##_arraylist* make_##NAME##_arraylist(usz capacity) {                       \
+    static inline NAME##_arraylist* make_##NAME##_arraylist(usz capacity) {         \
         NAME##_arraylist* out =                                                     \
             (NAME##_arraylist*)malloc(sizeof(NAME##_arraylist));                    \
                                                                                     \
@@ -148,17 +148,17 @@ typedef struct {
         return out;                                                                 \
     }                                                                               \
                                                                                     \
-    usz NAME##_arraylist_size(void* list) {                                         \
-        return (NAME##_arraylist*(list))->size;                                     \
+    static inline usz NAME##_arraylist_size(void* list) {                           \
+        return ((NAME##_arraylist*)list)->size;                                     \
     }                                                                               \
                                                                                     \
-    void NAME##_arraylist_append(void* list, void* element) {                       \
+    static inline void NAME##_arraylist_append(void* list, void* element) {         \
         NAME##_arraylist* actual_list = (NAME##_arraylist *) list;                  \
         if (actual_list->size == actual_list->capacity) {                           \
             usz resized_capacity = actual_list->capacity * 2;                       \
             ERROR_CHECK(MAX_SIZE / sizeof(T) < resized_capacity,                    \
                     "List too large", exit(EXIT_FAILURE));                          \
-            void* temp = realloc(actual_list->data, resized_capacity);              \
+            void* temp = realloc(actual_list->data, resized_capacity * sizeof(T));  \
             ERROR_CHECK(temp == NULL, "Could not resize list", exit(EXIT_FAILURE)); \
                                                                                     \
             actual_list->data = temp;                                               \
@@ -167,20 +167,20 @@ typedef struct {
         actual_list->data[actual_list->size++] = *(T*)element;                      \
     }                                                                               \
                                                                                     \
-    void* NAME##_arraylist_get(void* list, usz index) {                             \
+    static inline void* NAME##_arraylist_get(void* list, usz index) {               \
         NAME##_arraylist* actual_list = (NAME##_arraylist *) list;                  \
         ERROR_CHECK(index >= actual_list->size,                                     \
                     "Accessing invalid index of list", exit(EXIT_FAILURE));         \
-        return actual_list->data[index];                                            \
+        return &actual_list->data[index];                                           \
     }                                                                               \
                                                                                     \
-    void NAME##_arraylist_destroy(void* list) {                                     \
+    static inline void NAME##_arraylist_destroy(void* list) {                       \
         NAME##_arraylist* actual_list = (NAME##_arraylist*)list;                    \
         free(actual_list->data);                                                    \
         actual_list->size = 0;                                                      \
         actual_list->capacity = 0;                                                  \
         free(actual_list);                                                          \
-    }                                                                               \
+    }                                                                               
 
 
 //functional stuff
