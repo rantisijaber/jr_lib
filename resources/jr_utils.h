@@ -1,6 +1,8 @@
 #ifndef JR_UTILS_H
 #define JR_UTILS_H
 
+
+#include <ctype.h>
 #include <stdint.h>
 #include <stddef.h>
 #include <stdbool.h>
@@ -61,14 +63,14 @@ typedef int64_t i64;
 
 
 
-#define make_allocator(T, capacity)              \
+#define make_allocator(T, capacity)                 \
     (jr_allocator) {                                \
         .internal_allocator = make_##T##(capacity), \
         .allocate = T##_allocate,                   \
         .destroy = T##_destroy,                     \
         .reset = T##_reset                          \
     };                                              \
-
+                                                    \
 
 typedef struct {
     void* internal_allocator;
@@ -87,9 +89,9 @@ typedef struct {
 } jr_arena;
 
 #define SV_LITERAL(s) (jr_string_view) { \
-    .data = (const u8*)(s),         \
+    .data = (const u8*)(s),              \
     .size = sizeof(s) - 1                \
-}
+}                                        \
 
 
 typedef struct {
@@ -102,7 +104,7 @@ jr_string_view to_sv(const char* cstring);
 char* to_cstring(jr_string_view* sv);
 void sv_chop_left(jr_string_view* sv);
 void sv_chop_right(jr_string_view* sv);
-void sv_trim(jr_string_view sv);
+void sv_trim(jr_string_view* sv);
 bool sv_equals(jr_string_view sv1, jr_string_view sv2);
 jr_string_view sv_substring(jr_string_view og, usz init_index, usz fin_index);
 
@@ -193,7 +195,10 @@ typedef void(*biconsumer_bare)(void* element1, void* element2);
 typedef void*(*bifunction_bare)(void* element1, void* element2);
 
 
+typedef enum { BI, SINGLE } functional_tag;
+
 typedef struct {
+    functional_tag tag;
     union {
         predicate_bare predicate;
         bipredicate_bare bipredicate;
@@ -201,6 +206,7 @@ typedef struct {
 } jr_predicate;
 
 typedef struct {
+    functional_tag tag;
     union {
         consumer_bare consumer;
         bipredicate_bare biconsumer;
@@ -208,6 +214,7 @@ typedef struct {
 } jr_consumer;
 
 typedef struct {
+    functional_tag tag;
     union {
         function_bare function;
         bifunction_bare bifunction;
@@ -330,5 +337,25 @@ typedef struct {
         .peek = NAME##_##kind##_peek,                  \
         .is_empty = NAME##_##kind##_is_empty           \
 }
+
+
+
+void or_else(jr_consumer consumer);
+
+#define GEN_OPTIONAL_OF(T, NAME)                   \
+    typedef struct {                               \
+        T* value;                                  \
+        bool has_value;                            \
+    } NAME##_optional;                             \
+                                                   \
+    void NAME##_if_exists_do(NAME##_optional* op,  \
+                          jr_consumer consumer) {} \
+                                                   \
+    T NAME##_get_if_exists(NAME##_optional* op) {  \
+        if (op->has_value) return op->value;       \
+    }                                              \
+                                                   \
+    void NAME##_handle_empty(){}                   \
+
 
 #endif

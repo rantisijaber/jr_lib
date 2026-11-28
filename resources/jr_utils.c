@@ -1,6 +1,5 @@
 #include "jr_utils.h"
-#include <stdint.h>
-#include <stdlib.h>
+
 
 
 uintptr_t align_forward(uintptr_t ptr, usz align) {
